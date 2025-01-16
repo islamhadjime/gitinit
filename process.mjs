@@ -6,20 +6,17 @@ export function process(store, order) {
     const resultStats = new Map();
     const assignment = [];
     let mismatches = 0;
-  
     for (const customer of order) {
       const { id, size } = customer;
       let assignedSize = null;
-  
       if (size.length === 1) {
-        // Заказ на один размер
         const [preferredSize] = size;
         if (storeMap.get(preferredSize) > 0) {
           assignedSize = preferredSize;
           storeMap.set(preferredSize, storeMap.get(preferredSize) - 1);
         }
       } else {
-        // Заказ на два размера с приоритетом
+       
         const [size1, size2] = size;
         const preferredSize = customer.masterSize === "s1" ? size1 : size2;
         const fallbackSize = customer.masterSize === "s1" ? size2 : size1;
@@ -35,7 +32,7 @@ export function process(store, order) {
       }
   
       if (!assignedSize) {
-        return false; // Склад не может обработать заказ
+        return false; 
       }
   
       assignment.push({ id, size: assignedSize });
